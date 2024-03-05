@@ -1,0 +1,129 @@
+use actix_web::{web, App, HttpServer, Responder, HttpRequest};
+
+#[actix_web::main]
+async fn main() -> std::io::Result<()>
+{
+    println!("Server is firing up!");
+    //fizzbuzz(15);
+
+    HttpServer::new(|| {
+        App::new()
+        .route("/", web::get().to(hello))
+        .route("/{name}", web::get().to(hello))
+        .route("/fizz_buzz/from={start}to={end}", web::get().to(fizzbuzz))
+    })
+    .bind("127.0.0.1:8080")?
+    .run()
+    .await
+    //println!("Hello, world!");
+}
+
+async fn hello(request: HttpRequest) -> impl Responder
+{
+    let world = request.match_info().get("name").unwrap_or("World");
+
+    format!("Hello {}", world)
+}
+
+async fn fizzbuzz(request: HttpRequest) -> impl Responder
+{
+    //let one:i32 = 1;
+    let fizz:String = String::from("fizz!");
+    let buzz:String = String::from("buzz!");
+    let fizzbuzz:String = String::from("fizzbuzz!");
+    //let thirty:i32 = 30;
+
+    let mut result:String = String::from("");
+    let new_line:String = String::from("\n");
+    
+    /*let mut i:usize = 0;
+
+    while i <= thirty as usize
+    {
+        if i % 15 == 0
+        {
+            result.push_str(&fizzbuzz);
+            result.push_str(&new_line);
+        }
+        else if i % 3 == 0
+        {
+            result.push_str(&fizz);
+            result.push_str(&new_line);
+            //return fizz;
+        } else if i % 5 == 0
+        {
+            result.push_str(&buzz);
+            result.push_str(&new_line);
+            //return buzz;
+        } else
+        {
+            result.push_str(&i.to_string());
+            result.push_str(&new_line);
+        }
+
+        i+=1;
+    }*/
+
+    let start = request.match_info().get("start").unwrap_or("World");
+    let end = request.match_info().get("end").unwrap_or("World");
+
+    let start_result:Result<i32, _> = start.parse::<i32>();
+    let mut start_int:i32;
+    let end_result:Result<i32, _> = end.parse::<i32>();
+    let end_int:i32;
+
+    match start_result
+    {
+        Ok(int_success) => start_int = int_success,
+        Err(_) => start_int = 0,
+    }
+
+    match end_result
+    {
+        Ok(int_success) => end_int = int_success,
+        Err(_) => end_int = 0,
+    }
+
+    if start_int > end_int
+    {
+        return format!("Starting number cannot be greater than end number");
+    }
+
+    while start_int <= end_int
+    {
+        if start_int == 0
+        {
+            result.push_str(&start_int.to_string());
+            result.push_str(&new_line);
+        }
+        else if start_int % 15 == 0
+        {
+            result.push_str(&fizzbuzz);
+            result.push_str(&new_line);
+        }
+        else if start_int % 3 == 0
+        {
+            result.push_str(&fizz);
+            result.push_str(&new_line);
+            //return fizz;
+        } else if start_int % 5 == 0
+        {
+            result.push_str(&buzz);
+            result.push_str(&new_line);
+            //return buzz;
+        } else
+        {
+            result.push_str(&start_int.to_string());
+            result.push_str(&new_line);
+        }
+
+        start_int+=1;
+    }
+
+    println!("{}", result);
+
+    //format!("Hey {} - {}", start, end)
+    result
+
+    //return result;
+}
