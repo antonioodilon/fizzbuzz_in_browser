@@ -1,6 +1,6 @@
 # fizzbuzz_in_browser
 First and foremost, one needs to have Rust installed on her/his computer in order to build this program. Here are some links to get you started, if you don't know how to do it:
-https://doc.rust-lang.org/book/ch01-01-installation.html\n
+https://doc.rust-lang.org/book/ch01-01-installation.html<br />
 https://www.youtube.com/watch?v=jzopcmeekQE
 
 After you have installed everything, git clone this repository to a folder of your preference. Then, on the command line, type "cargo build" (without the double quotes) to build the program. Then type "cargo run" to run the program. Some output on your cmd or terminal will appear. Now move on to the "DESCRIPTION AND HOW TO USE IT" of this document.
